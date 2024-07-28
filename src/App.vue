@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue';
+import { useCounterStore } from './store/demo';
+const store = useCounterStore();
 </script>
 
 <template>
   <div>
-    3
+    store.count: {{ store.count }} store.getters: {{ store.double }}
+    <el-button @click="store.increment()">dd</el-button>
     <a href="https://vitejs.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
