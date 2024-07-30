@@ -5,3 +5,4 @@ node_modules
 dist
 .eslintignore
 eslint.config.mjs
+*.md
