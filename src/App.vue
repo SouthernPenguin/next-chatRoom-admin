@@ -5,6 +5,7 @@ const store = useCounterStore();
 </script>
 
 <template>
+  <router-view />
   <div>
     store.count: {{ store.count }} store.getters: {{ store.double }}
     <el-button @click="store.increment()">dd</el-button>

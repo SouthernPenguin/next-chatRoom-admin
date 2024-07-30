@@ -26,7 +26,8 @@
     "lint-staged": "^15.2.7",
     "pinia": "^2.2.0",
     "typescript-eslint": "^7.18.0",
-    "vue": "^3.4.31"
+    "vue": "^3.4.31",
+    "vue-router": "^4.4.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
