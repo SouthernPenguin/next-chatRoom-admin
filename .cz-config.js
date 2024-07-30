@@ -3,6 +3,7 @@ module.exports = {
   types: [
     { value: 'feat', name: 'feat:     引入新功能' },
     { value: 'fix', name: 'fix:      修复 bug' },
+    { value: 'merge', name: 'merge:      代码合并' },
     { value: 'style', name: 'style:    更新 UI 样式文件' },
     { value: 'format', name: 'format:   格式化代码' },
     { value: 'docs', name: 'docs:     添加/更新文档' },
