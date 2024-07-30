@@ -4,8 +4,6 @@ import tseslint from 'typescript-eslint';
 import pluginVue from 'eslint-plugin-vue';
 
 export default [
-  'eslint:recommended',
-  'plugin:@typescript-eslint/recommended',
   'plugin:vue/vue3-essential',
   'prettier',
 
@@ -31,6 +29,7 @@ export default [
       'linebreak-style': ['error', 'unix'],
       quotes: ['error', 'double'],
       semi: ['error', 'never'],
+      'no-unused-vars': ['error', { vars: 'all', args: 'after-used', ignoreRestSiblings: false }],
     },
   },
 ];
