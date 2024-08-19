@@ -3,7 +3,6 @@ import router from './index';
 // 使用 import.meta.glob 加载所有视图组件
 const views = import.meta.glob('../views/**/*.vue', { eager: true });
 
-console.log(views);
 // 创建动态路由
 function createDynamicRoutes(routesData) {
   const dynamicRoutes = routesData.map(route => {

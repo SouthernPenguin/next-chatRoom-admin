@@ -12,17 +12,13 @@ async function bootstrap() {
     // 使用动态路由函数创建动态路由
     const dynamicRouter = await import('./router/dynamic-routes');
 
-    const routesData = [
-      {
-        path: '/login',
-        name: 'login',
-        componentUrl: 'login/index', // 这里应该是一个实际的组件路径
-      },
-    ];
-    dynamicRouter.default(routesData);
+    const routesData = [];
+    if (routesData.length) {
+      dynamicRouter.default(routesData);
+    }
 
     const app = createApp(App);
-    console.log(router);
+
     app.use(router).use(ElementPlus).use(createPinia()).mount('#app');
 
     for (const [key, component] of Object.entries(ElementPlusIconsVue)) {

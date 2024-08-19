@@ -1,22 +1,25 @@
 <template>
   <div id="login">
-    <el-form :model="loginForm" label-width="auto" class="form-login" :rules="rules" ref="formRef">
-      <el-form-item label="账号" prop="nameUser">
-        <el-input v-model="loginForm.nameUser" />
-      </el-form-item>
-      <el-form-item label="密码" prop="password">
-        <el-input v-model="loginForm.password" :type="inputType" />
+    <div class="form-login">
+      <h2 class="title">后台管理系统</h2>
+      <el-form :model="loginForm" label-width="auto" :rules="rules" ref="formRef">
+        <el-form-item label="账号" prop="nameUser">
+          <el-input v-model="loginForm.nameUser" />
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="loginForm.password" :type="inputType" />
 
-        <el-icon @click="onChangePwdType" v-if="isShow" :size="20" class="password-icon"><View /></el-icon>
-        <el-icon @click="onChangePwdType" v-if="!isShow" :size="20" class="password-icon"><Hide /></el-icon>
-      </el-form-item>
+          <el-icon @click="onChangePwdType" v-if="isShow" :size="20" class="password-icon"><View /></el-icon>
+          <el-icon @click="onChangePwdType" v-if="!isShow" :size="20" class="password-icon"><Hide /></el-icon>
+        </el-form-item>
 
-      <el-form-item>
-        <div style="text-align: center; width: 100%">
-          <el-button type="primary" @click="submitForm(formRef)">登录</el-button>
-        </div>
-      </el-form-item>
-    </el-form>
+        <el-form-item>
+          <div style="text-align: center; width: 100%">
+            <el-button type="primary" @click="submitForm(formRef)">登录</el-button>
+          </div>
+        </el-form-item>
+      </el-form>
+    </div>
   </div>
 </template>
 
@@ -72,6 +75,9 @@ $cursor: #fff;
   background-color: $bg;
   overflow: hidden;
   .form-login {
+    .title {
+      margin-bottom: 10px;
+    }
     width: 400px;
     text-align: center;
     max-width: 600px;

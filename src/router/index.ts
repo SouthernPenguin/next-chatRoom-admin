@@ -1,11 +1,14 @@
 import { createMemoryHistory, createRouter, createWebHashHistory } from 'vue-router';
 
 // import HomeView from './HomeView.vue';
-import AboutView from '@/views/HomeView.vue';
+import Login from '@/views/login/index.vue';
 
 const routes = [
-  // { path: '/login', component: views[`@/views/${s}.vue`] },
-  { path: '/about', component: AboutView },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login, // 这里应该是一个实际的组件路径
+  },
 ];
 
 const router = createRouter({
