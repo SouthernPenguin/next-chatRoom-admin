@@ -1,9 +1,14 @@
-import { createMemoryHistory, createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory } from 'vue-router';
 
-// import HomeView from './HomeView.vue';
 import Login from '@/views/login/index.vue';
+import Layout from '@/layout/index.vue';
 
 const routes = [
+  {
+    path: '/',
+    name: 'Layout',
+    component: Layout,
+  },
   {
     path: '/login',
     name: 'login',
