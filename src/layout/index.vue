@@ -46,6 +46,7 @@ import AppMain from './components/AppMain.vue';
       height: calc(100vh - 85px);
     }
     footer {
+      border-top: 1px solid #ccc;
       position: fixed;
       bottom: 0;
       width: 100%;
