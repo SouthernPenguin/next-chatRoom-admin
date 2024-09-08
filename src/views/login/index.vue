@@ -3,8 +3,8 @@
     <div class="form-login">
       <h2 class="title">后台管理系统</h2>
       <el-form :model="loginForm" label-width="auto" :rules="rules" ref="formRef">
-        <el-form-item label="账号" prop="nameUser">
-          <el-input v-model="loginForm.nameUser" />
+        <el-form-item label="账号" prop="name">
+          <el-input v-model="loginForm.name" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="loginForm.password" :type="inputType" />
@@ -27,9 +27,10 @@
 import type { FormInstance } from 'element-plus';
 import { FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
+import { login } from '@/api/auth';
 
 interface LoginForm {
-  nameUser: string;
+  name: string;
   password: string;
 }
 
@@ -37,12 +38,12 @@ const formRef = ref<FormInstance>();
 const isShow = ref<boolean>(false);
 const inputType = ref<string>('password');
 const loginForm = reactive<LoginForm>({
-  nameUser: '',
+  name: '',
   password: '',
 });
 
 const rules = reactive<FormRules<typeof loginForm>>({
-  nameUser: [{ required: true, trigger: ['blur', 'change'], message: '请输入账号' }],
+  name: [{ required: true, trigger: ['blur', 'change'], message: '请输入账号' }],
   password: [{ required: true, trigger: ['blur', 'change'], message: '请输入密码' }],
 });
 
@@ -53,9 +54,10 @@ const onChangePwdType = () => {
 
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
-  formEl.validate(valid => {
+  formEl.validate(async valid => {
     if (valid) {
-      console.log('submit!');
+      const res = await login(loginForm);
+      console.log('submit!', loginForm, valid);
     } else {
       console.log('error submit!');
     }
