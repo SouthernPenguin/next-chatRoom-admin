@@ -10,6 +10,11 @@
       text-color="#fff"
       @select="selectMenuItem"
     >
+      <el-menu-item index="/home">
+        <el-icon><House /></el-icon>
+        <template #title>首页</template>
+      </el-menu-item>
+
       <MenuItems :key="item.path" :node="item" v-for="item in menus" />
     </el-menu>
   </el-scrollbar>

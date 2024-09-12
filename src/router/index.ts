@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import Login from '@/views/login/index.vue';
+import Home from '@/views/home/index.vue';
 import Layout from '@/layout/index.vue';
 import { getLocalStorageToken, menuTree } from '../utils';
 import { getMenu } from '../api/auth';
@@ -13,7 +14,15 @@ export const routes = [
   {
     path: '/',
     name: 'Layout',
+    redirect: '/home',
     component: Layout,
+    children: [
+      {
+        path: 'home',
+        component: Home,
+        name: 'home',
+      },
+    ],
   },
   {
     path: '/login',
