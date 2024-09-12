@@ -3,16 +3,17 @@
     <div class="header">
       <div class="header-left">
         <div>
-          <el-icon v-if="mainStore.isCollapse"><Expand @click="mainStore.collapse" /></el-icon>
-          <el-icon v-else><Fold @click="mainStore.collapse" /></el-icon>
+          <el-icon v-if="styleStore.isCollapse"><Expand @click="styleStore.collapse" /></el-icon>
+          <el-icon v-else><Fold @click="styleStore.collapse" /></el-icon>
         </div>
       </div>
       <div class="header-right">
-        <el-avatar shape="square" :src="squareUrl" style="margin-right: 10px" />
+        <!-- 头像 -->
+        <el-avatar shape="square" style="margin-right: 10px" />
 
         <el-dropdown :hide-on-click="false">
           <span style="cursor: pointer">
-            Admin {{ mainStore.isCollapse }}
+            {{ userStore.userInfo.name }}
             <el-icon class="el-icon--right"><arrow-down /></el-icon>
           </span>
           <template #dropdown>
@@ -41,20 +42,14 @@
 
 <script setup lang="ts">
 import { ArrowDown } from '@element-plus/icons-vue';
-import { reactive, ref, toRefs } from 'vue';
-
-import { useStyleStore } from '@/store/styleStore';
-const mainStore = useStyleStore();
-
-const state = reactive({
-  circleUrl: 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-  squareUrl: 'https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png',
-  sizeList: ['small', '', 'large'] as const,
-});
-
-const { circleUrl, squareUrl, sizeList } = toRefs(state);
-
+import { ref } from 'vue';
 import type { TagProps } from 'element-plus';
+
+import { useStyleStore } from '@/stores/styleStore';
+import { useLoginUser } from '@/stores/user';
+const styleStore = useStyleStore();
+const userStore = useLoginUser();
+
 interface TagsItem {
   name: string;
   type: TagProps['type'];

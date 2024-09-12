@@ -7,6 +7,10 @@
 import axios from 'axios';
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage } from 'element-plus';
+import { __TOKEN__ } from '../constant';
+import store from '../../stores';
+import { useLoginUser } from '../../stores/user';
+const loginUser = useLoginUser(store);
 
 /* 服务器返回数据的的类型，根据接口文档确定 */
 export interface Result<T = any> {
@@ -24,10 +28,7 @@ const service: AxiosInstance = axios.create({
 /* 请求拦截器 */
 service.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    //  伪代码
-    // if (user.token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    config.headers.Authorization = `Bearer ${localStorage.getItem(__TOKEN__)}`;
     return config;
   },
   (error: AxiosError) => {
@@ -40,11 +41,10 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   (response: AxiosResponse) => {
     const { code, message, data } = response.data;
-
     // 根据自定义错误码判断请求是否成功
     if (code === 0) {
       // 将组件用的数据返回
-      return data;
+      return response.data;
     } else {
       // 处理业务错误。
       ElMessage.error(message);
@@ -58,26 +58,29 @@ service.interceptors.response.use(
     const status = error.response?.status;
     // debugger;
     switch (status) {
+      case 400:
+        message = error.response?.data.message;
+        break;
       case 401:
         message = 'token 失效，请重新登录';
-        // 这里可以触发退出的 action
+        loginUser.loginOut();
         break;
       case 403:
         message = '拒绝访问';
         break;
       case 404:
-        message = '请求地址错误';
+        message = '请求地址错误，请检查网络或联系管理员！';
         break;
       case 500:
-        message = '服务器故障';
+        message = '服务器故障，请检查网络或联系管理员！';
         break;
       default:
-        message = '网络连接故障';
+        message = '网络连接故障，请检查网络或联系管理员！';
     }
 
     ElMessage({
       showClose: true,
-      message: `${message}，请检查网络或联系管理员！`,
+      message: `${message}`,
       type: 'error',
     });
 
@@ -87,7 +90,7 @@ service.interceptors.response.use(
 
 /* 导出封装的请求方法 */
 export const http = {
-  get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<T> {
+  get<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<Result<T>> {
     return service.get(url, config);
   },
 

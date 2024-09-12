@@ -28,7 +28,13 @@ import type { FormInstance } from 'element-plus';
 import { FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
 import { login } from '@/api/auth';
-
+import { useLoginUser } from '@/stores/user';
+import { useRouter } from 'vue-router';
+import { getMenu } from '../../api/auth';
+import { menuTree } from '../../utils';
+import { UseLoginUser } from '../../stores/user';
+const loginUser = useLoginUser();
+const router = useRouter();
 interface LoginForm {
   name: string;
   password: string;
@@ -47,19 +53,26 @@ const rules = reactive<FormRules<typeof loginForm>>({
   password: [{ required: true, trigger: ['blur', 'change'], message: '请输入密码' }],
 });
 
+// 显示隐藏密码
 const onChangePwdType = () => {
   isShow.value = !isShow.value;
   isShow.value ? (inputType.value = 'password') : (inputType.value = 'text');
 };
 
+// 登录
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate(async valid => {
     if (valid) {
       const res = await login(loginForm);
-      console.log('submit!', loginForm, valid);
-    } else {
-      console.log('error submit!');
+      if (res.success) {
+        loginUser.setUserInfo(res.data.userInfo, res.data.token);
+        const re1s = await getMenu();
+        loginUser.$patch((state: UseLoginUser) => {
+          state.menus = menuTree(re1s.data) as any[];
+        });
+        router.push({ path: '/', replace: true });
+      }
     }
   });
 };

@@ -1,10 +1,10 @@
 <template>
-  <el-sub-menu :index="props.node.path" v-if="props.node.children && props.node.children.length">
+  <el-sub-menu :index="props.node.url" v-if="props.node.children && props.node.children.length">
     <template #title>{{ props.node.name }}</template>
     <MenuItems v-for="childItem in props.node.children" :key="childItem.component" :node="childItem"></MenuItems>
   </el-sub-menu>
 
-  <el-menu-item :index="props.node.path" v-else>
+  <el-menu-item :index="props.node.url" v-else>
     <el-icon><location /></el-icon>
     <template #title>{{ props.node.name }}</template>
   </el-menu-item>
@@ -15,9 +15,9 @@ import { defineOptions, defineProps, toRefs } from 'vue';
 defineOptions({
   name: 'MenuItems',
 });
-interface NodeType {
+export interface NodeType {
   name: string;
-  path: string;
+  url: string;
   hidden: boolean;
   component: string;
   pid?: string;
