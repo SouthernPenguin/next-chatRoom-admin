@@ -28,12 +28,7 @@
           </span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>Action 1</el-dropdown-item>
-              <el-dropdown-item>Action 2</el-dropdown-item>
-              <el-dropdown-item>Action 3</el-dropdown-item>
-              <el-dropdown-item disabled>Action 4</el-dropdown-item>
-              <el-dropdown-item divided>Action 5</el-dropdown-item>
-              <el-dropdown-item divided>Action 6</el-dropdown-item>
+              <el-dropdown-item @click="loginOut">退出</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -122,6 +117,10 @@ const openMenu = (e: MouseEvent, index: number) => {
   menuStyle.top = y + 'px';
   menuRouterStore.moveIndex = index;
   isContextmenuShow.value = true;
+};
+
+const loginOut = () => {
+  userStore.loginOut();
 };
 </script>
 
