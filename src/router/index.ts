@@ -18,7 +18,7 @@ export const routes = [
     component: Layout,
     children: [
       {
-        path: 'home',
+        path: '/home',
         component: Home,
         name: 'home',
       },

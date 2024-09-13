@@ -33,8 +33,12 @@ import { useRouter } from 'vue-router';
 import { getMenu } from '../../api/auth';
 import { menuTree } from '../../utils';
 import { UseLoginUser } from '../../stores/user';
+import { useMenuRouterStore } from '../../stores/menu';
+
 const loginUser = useLoginUser();
+const menuRouter = useMenuRouterStore();
 const router = useRouter();
+
 interface LoginForm {
   name: string;
   password: string;
@@ -71,7 +75,8 @@ const submitForm = (formEl: FormInstance | undefined) => {
         loginUser.$patch((state: UseLoginUser) => {
           state.menus = menuTree(re1s.data) as any[];
         });
-        router.push({ path: '/', replace: true });
+        menuRouter.tags = [{ path: '/home', name: '首页' }];
+        router.push({ path: '/home', replace: true });
       }
     }
   });
