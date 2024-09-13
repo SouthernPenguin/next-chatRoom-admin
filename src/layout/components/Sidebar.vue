@@ -1,5 +1,5 @@
 <template>
-  <el-scrollbar>
+  <el-scrollbar class="scrollBar-bgc">
     <el-menu
       :default-active="menuRouterStore.defaultActive"
       :collapse="isCollapse"
@@ -59,3 +59,9 @@ const selectMenuItem = (index: string, indexPath: string[], item: MenuItemClicke
   router.push(item.index);
 };
 </script>
+
+<style lang="css" scoped>
+.scrollBar-bgc {
+  background-color: rgb(84, 92, 99) !important;
+}
+</style>
