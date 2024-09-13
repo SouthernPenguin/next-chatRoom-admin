@@ -2,9 +2,15 @@
   <div id="navbar">
     <div class="header">
       <div class="header-left">
-        <div>
+        <div class="breadcrumb">
           <el-icon v-if="styleStore.isCollapse"><Expand @click="styleStore.collapse" /></el-icon>
           <el-icon v-else><Fold @click="styleStore.collapse" /></el-icon>
+          <!-- 面包屑 -->
+          <el-breadcrumb separator="/" style="margin-left: 10px">
+            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+
+            <el-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</el-breadcrumb-item>
+          </el-breadcrumb>
         </div>
       </div>
       <div class="header-right">
@@ -32,68 +38,92 @@
 
     <el-scrollbar style="border-top: 1px solid #9093997d; box-shadow: rgb(0 0 0 / 43%) 0px 2px 3px 0px">
       <div class="tags">
-        <el-tag v-for="tag in tags" :key="tag.name" closable :type="tag.type">
+        <el-tag
+          effect="dark"
+          @contextmenu.prevent="openMenu($event, index)"
+          @close.prevent.stop="moveTag(index)"
+          @click.prevent.stop="toTag(tag, index)"
+          v-for="(tag, index) in tags"
+          :key="tag.path"
+          :closable="index !== 0"
+          style="cursor: pointer"
+          :type="index === tagIndex ? 'success' : 'primary'"
+        >
           {{ tag.name }}
         </el-tag>
       </div>
     </el-scrollbar>
+
+    <ContextMenu
+      :style="{
+        top: menuStyle.top,
+        left: menuStyle.left,
+      }"
+      v-show="isContextmenuShow"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ArrowDown } from '@element-plus/icons-vue';
-import { ref } from 'vue';
-import type { TagProps } from 'element-plus';
+import { useRouter } from 'vue-router';
+
+import ContextMenu from './ContextMenu.vue';
 
 import { useStyleStore } from '@/stores/styleStore';
 import { useLoginUser } from '@/stores/user';
+import { TTags, useMenuRouterStore } from '../../stores/menu';
+import { storeToRefs } from 'pinia';
+import { reactive, ref, watch } from 'vue';
+
 const styleStore = useStyleStore();
 const userStore = useLoginUser();
+const menuRouterStore = useMenuRouterStore();
+const router = useRouter();
 
-interface TagsItem {
-  name: string;
-  type: TagProps['type'];
-}
+const { tags, tagIndex, breadcrumb } = storeToRefs(menuRouterStore);
 
-const tags = ref<TagsItem[]>([
-  { name: 'Tag 1', type: 'primary' },
-  { name: 'Tag 2', type: 'success' },
-  { name: 'Tag 3', type: 'info' },
-  { name: 'Tag 4', type: 'warning' },
-  { name: 'Tag 5', type: 'danger' },
-  { name: 'Tag 6', type: 'primary' },
-  { name: 'Tag 7', type: 'success' },
-  { name: 'Tag 8', type: 'info' },
-  { name: 'Tag 9', type: 'warning' },
-  { name: 'Tag 10', type: 'danger' },
-  { name: 'Tag 11', type: 'primary' },
-  { name: 'Tag 12', type: 'success' },
-  { name: 'Tag 13', type: 'info' },
-  { name: 'Tag 14', type: 'warning' },
-  { name: 'Tag 15', type: 'danger' },
-  { name: 'Tag 16', type: 'primary' },
-  { name: 'Tag 17', type: 'success' },
-  { name: 'Tag 18', type: 'info' },
-  { name: 'Tag 19', type: 'warning' },
-  { name: 'Tag 20', type: 'danger' },
-  { name: 'Tag 21', type: 'primary' },
-  { name: 'Tag 22', type: 'success' },
-  { name: 'Tag 23', type: 'info' },
-  { name: 'Tag 24', type: 'warning' },
-  { name: 'Tag 25', type: 'danger' },
-  { name: 'Tag 26', type: 'primary' },
-  { name: 'Tag 27', type: 'success' },
-  { name: 'Tag 28', type: 'info' },
-  { name: 'Tag 29', type: 'warning' },
-  { name: 'Tag 30', type: 'danger' },
-]);
+const menuStyle = reactive<{ left: string; top: string }>({
+  left: '0px',
+  top: '0px',
+});
+const isContextmenuShow = ref<boolean>(false);
+
+const closeMenu = () => {
+  isContextmenuShow.value = false;
+};
+
+watch(isContextmenuShow, val => {
+  if (val) {
+    document.body.addEventListener('click', closeMenu);
+  } else {
+    document.body.removeEventListener('click', closeMenu);
+  }
+});
+
+const moveTag = (index: number) => {
+  menuRouterStore.moveRouters(index);
+  router.push(tags.value[tags.value.length - 1].path);
+};
+
+const toTag = (item: TTags, index: number) => {
+  menuRouterStore.tagIndex = index;
+  menuRouterStore.defaultActive = item.path;
+  router.push(item.path);
+};
+
+const openMenu = (e: MouseEvent, index: number) => {
+  const { x, y } = e;
+  menuStyle.left = x + 'px';
+  menuStyle.top = y + 'px';
+  menuRouterStore.moveIndex = index;
+  isContextmenuShow.value = true;
+};
 </script>
 
 <style scoped lang="scss">
 @import '@/style/mixin.scss';
 #navbar {
-  // background-color: skyblue;
-
   .header {
     height: 50px;
     box-sizing: border-box;
@@ -102,6 +132,10 @@ const tags = ref<TagsItem[]>([
     padding: 0 5px;
     .header-left {
       font-size: 25px;
+      .breadcrumb {
+        display: flex;
+        align-items: center;
+      }
     }
     .header-right {
       @include flex;
