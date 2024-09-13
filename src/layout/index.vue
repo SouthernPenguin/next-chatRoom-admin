@@ -31,14 +31,15 @@ import AppMain from './components/AppMain.vue';
     height: 100%;
   }
   .sidebar-box-show {
-    width: #{$sideBarWidth};
+    width: 100%;
+    // width: #{$sideBarWidth};
   }
 
   #main-content {
     z-index: 10;
     height: 100%;
-    min-width: calc(100vw - #{$sideBarWidth});
-    // background-color: brown;
+    width: 100%;
+    // min-width: calc(100vw - #{$sideBarWidth});
     box-sizing: border-box;
     .content {
       box-sizing: border-box;
