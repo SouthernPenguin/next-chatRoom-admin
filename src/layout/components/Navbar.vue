@@ -15,6 +15,10 @@
       </div>
       <div class="header-right">
         <!-- 头像 -->
+        <div class="icons">
+          <Screenfull />
+        </div>
+
         <el-avatar shape="square" style="margin-right: 10px" />
 
         <el-dropdown :hide-on-click="false">
@@ -63,12 +67,12 @@
     />
   </div>
 </template>
-
 <script setup lang="ts">
 import { ArrowDown } from '@element-plus/icons-vue';
 import { useRouter } from 'vue-router';
 
 import ContextMenu from './ContextMenu.vue';
+import Screenfull from './Screenfull.vue';
 
 import { useStyleStore } from '@/stores/styleStore';
 import { useLoginUser } from '@/stores/user';
@@ -138,6 +142,13 @@ const openMenu = (e: MouseEvent, index: number) => {
       }
     }
     .header-right {
+      .icons {
+        display: flex;
+        align-items: center;
+        height: 100%;
+        font-size: 25px;
+        margin-right: 10px;
+      }
       @include flex;
     }
   }
