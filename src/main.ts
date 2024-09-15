@@ -6,6 +6,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 
 import './style.css';
+import './style/index.scss';
 import router from './router';
 import App from './App.vue';
 async function bootstrap() {

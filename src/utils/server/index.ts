@@ -102,6 +102,10 @@ export const http = {
     return service.put(url, data, config);
   },
 
+  patch<T = any>(url: string, data?: object, config?: InternalAxiosRequestConfig): Promise<Result<T>> {
+    return service.patch(url, data, config);
+  },
+
   delete<T = any>(url: string, config?: InternalAxiosRequestConfig): Promise<Result<T>> {
     return service.delete(url, config);
   },
