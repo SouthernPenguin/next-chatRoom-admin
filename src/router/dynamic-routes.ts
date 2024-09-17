@@ -1,11 +1,11 @@
-import { TMenuType } from '../api/auth';
+import { menuType } from '../api/auth';
 // 使用 import.meta.glob 加载所有视图组件
 const views = import.meta.glob('../views/**/*.vue', { eager: true });
 const Layout = import.meta.glob('../layout/**/*.vue', { eager: true });
 
 // 创建动态路由
-function createDynamicRoutes(routesData: TMenuType[]) {
-  const dynamicRoutes = routesData.map((route: TMenuType) => {
+function createDynamicRoutes(routesData: menuType[]) {
+  const dynamicRoutes = routesData.map((route: menuType) => {
     if (route.nodeType === 1) {
       // 根据组件名称构建正确的路径
       const componentPath = `../views/${route.assemblyUrl}.vue`;

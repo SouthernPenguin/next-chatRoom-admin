@@ -55,11 +55,11 @@
 import { FormInstance, FormRules } from 'element-plus/es/components/form';
 import { reactive, defineProps, ref, watch } from 'vue';
 import { ICreatedMenu } from './createdMenuType';
-import { createdMenu, TMenuType, upDataMenu } from '../../../api/auth';
+import { createdMenu, menuType, upDataMenu } from '../../../api/auth';
 import { ElMessage } from 'element-plus';
 interface IProps {
-  menuTree: TMenuType[];
-  upDataForm: TMenuType;
+  menuTree: menuType[];
+  upDataForm: menuType;
 }
 const props = defineProps<IProps>();
 const emit = defineEmits(['createdMenuSuccess']);

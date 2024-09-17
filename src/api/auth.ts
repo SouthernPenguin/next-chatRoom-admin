@@ -11,8 +11,8 @@ export const login = (data: { name: string; password: string }) => {
   }>('/auth/auth/login', data);
 };
 
-export type TMenuType = {
-  id: number | null;
+export type menuType = {
+  id: number;
   parentId: number;
   name: string;
   menuCode: '';
@@ -22,20 +22,20 @@ export type TMenuType = {
   assemblyUrl: string;
   sort: number;
   isDeleted: null;
-  children?: TMenuType[];
+  children?: menuType[];
 };
 
 // 获取目录
-export const getMenu = (isTree: boolean | undefined = false) => http.get<TMenuType[]>('/menus?isTree=' + isTree);
+export const getMenu = (isTree: boolean | undefined = false) => http.get<menuType[]>('/menus?isTree=' + isTree);
 
 // 获取第一级目录/菜单树
-export const getFirstStage = () => http.get<TMenuType[]>('/menus/findFirstStage');
+export const getFirstStage = () => http.get<menuType[]>('/menus/findFirstStage');
 
 // 获取下机目录
-export const nextMenu = (id: number) => http.get<TMenuType[]>(`/menus/${id}`);
+export const nextMenu = (id: number) => http.get<menuType[]>(`/menus/${id}`);
 
 // 创建目录/菜单/权限
-export const createdMenu = (data: ICreatedMenu) => http.post<TMenuType>('/menus', data);
+export const createdMenu = (data: ICreatedMenu) => http.post<menuType>('/menus', data);
 
 // 删除目录/菜单/权限
 export const deleteMenu = (id: number) => http.delete(`/menus/${id}`);

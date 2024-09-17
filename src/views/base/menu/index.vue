@@ -44,12 +44,12 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
-import { getFirstStage, getMenu, nextMenu, TMenuType, deleteMenu } from '../../../api/auth';
+import { getFirstStage, getMenu, nextMenu, menuType, deleteMenu } from '../../../api/auth';
 import EForm from './from.vue';
 import { ICreatedMenu } from './createdMenuType';
 
 const menuDialogFormVisibleRef = ref<boolean>(false);
-const menuPageData = reactive<{ tableData: TMenuType[]; allTableData: TMenuType[] }>({
+const menuPageData = reactive<{ tableData: menuType[]; allTableData: menuType[] }>({
   tableData: [],
   allTableData: [],
 });
@@ -88,13 +88,13 @@ const getALLTableData = async () => {
 };
 
 // 下级菜单
-const load = async (row: TMenuType, treeNode: unknown, resolve: (data: TMenuType[]) => void) => {
+const load = async (row: menuType, treeNode: unknown, resolve: (data: menuType[]) => void) => {
   const res = await nextMenu(row.id);
   resolve(res.data);
 };
 
 // 删除
-const deleteMenuFn = async (row: TMenuType) => {
+const deleteMenuFn = async (row: menuType) => {
   try {
     const confirm = await ElMessageBox.confirm('确定删除？', {
       confirmButtonText: '确定',

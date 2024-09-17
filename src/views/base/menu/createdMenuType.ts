@@ -1,3 +1,3 @@
-import { TMenuType } from '../../../api/auth';
+import { menuType } from '../../../api/auth';
 
-export interface ICreatedMenu extends Omit<TMenuType, 'isDeleted' | 'children'> {}
+export interface ICreatedMenu extends Omit<menuType, 'isDeleted' | 'children'> {}
