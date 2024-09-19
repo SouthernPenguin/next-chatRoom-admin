@@ -9,8 +9,8 @@
         <el-form-item label="密码" prop="password">
           <el-input v-model="loginForm.password" :type="inputType" />
 
-          <el-icon @click="onChangePwdType" v-if="isShow" :size="20" class="password-icon"><View /></el-icon>
-          <el-icon @click="onChangePwdType" v-if="!isShow" :size="20" class="password-icon"><Hide /></el-icon>
+          <el-icon @click="onChangePwdType" v-show="isShow" :size="20" class="password-icon"><View /></el-icon>
+          <el-icon @click="onChangePwdType" v-show="!isShow" :size="20" class="password-icon"><Hide /></el-icon>
         </el-form-item>
 
         <el-form-item>
@@ -48,8 +48,8 @@ const formRef = ref<FormInstance>();
 const isShow = ref<boolean>(false);
 const inputType = ref<string>('password');
 const loginForm = reactive<LoginForm>({
-  name: '',
-  password: '',
+  name: 'admin',
+  password: '123456',
 });
 
 const rules = reactive<FormRules<typeof loginForm>>({
@@ -60,7 +60,7 @@ const rules = reactive<FormRules<typeof loginForm>>({
 // 显示隐藏密码
 const onChangePwdType = () => {
   isShow.value = !isShow.value;
-  isShow.value ? (inputType.value = 'password') : (inputType.value = 'text');
+  isShow.value ? (inputType.value = 'text') : (inputType.value = 'password');
 };
 
 // 登录
