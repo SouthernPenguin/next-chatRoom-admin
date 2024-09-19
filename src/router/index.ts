@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory } from 'vue-router';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 
 import Login from '@/views/login/index.vue';
 import Home from '@/views/home/index.vue';
@@ -10,7 +10,7 @@ import store from '@/stores/index';
 import { UseLoginUser, useLoginUser } from '../stores/user';
 const loginUser = useLoginUser(store);
 
-export const routes = [
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Layout',
@@ -28,6 +28,11 @@ export const routes = [
     path: '/login',
     name: 'login',
     component: Login, // 这里应该是一个实际的组件路径
+  },
+  {
+    path: '/404',
+    name: 'NotFound',
+    component: () => import('@/views/404/NotFound.vue'),
   },
 ];
 
@@ -54,7 +59,18 @@ router.beforeEach(async (to, from, next) => {
       const routesData = res.data;
       if (routesData.length) {
         const dynamicRoutes = dynamicRouter.default(routesData);
-        router.addRoute(...menuTree(dynamicRoutes));
+
+        menuTree(dynamicRoutes).forEach(item => {
+          console.log(item, 'item');
+          router.addRoute(item);
+        });
+
+        // router.addRoute(...menuTree(dynamicRoutes));
+        router.addRoute({
+          path: '/:pathMatch(.*)*',
+          redirect: '/404',
+        });
+
         loginUser.$patch((state: UseLoginUser) => {
           state.isLoadingMenu = true;
         });
