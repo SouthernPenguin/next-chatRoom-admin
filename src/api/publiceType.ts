@@ -8,10 +8,16 @@ export interface SearchPageInterface {
   limit: number;
 }
 
-// 列表分页分页
-
-export interface ReturnListInterface<T> {
+// 网络请求列表分页接口 API层
+export interface ReturnListInterface<T = any> {
   content: T;
   totalElements: number;
   totalPages: number;
+}
+
+// 页面网络请求返回接口 UI层
+export interface ReturnPageList<T = any, F = any> extends SearchPageInterface {
+  total: number;
+  tableData: T; // 表格数据类型
+  formSearch: F; // 表单数据类型
 }

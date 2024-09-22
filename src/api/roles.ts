@@ -10,6 +10,8 @@ interface rolesList extends SearchPageInterface {
 export interface RoleRowInterface {
   name: string;
   id: number;
+  value?: number;
+  label?: string;
 }
 
 interface RolesDetailInterface extends RoleRowInterface {
