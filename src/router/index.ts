@@ -61,7 +61,6 @@ router.beforeEach(async (to, from, next) => {
         const dynamicRoutes = dynamicRouter.default(routesData);
 
         menuTree(dynamicRoutes).forEach(item => {
-          console.log(item, 'item');
           router.addRoute(item);
         });
 
