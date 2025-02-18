@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { getRoles, rolesDetail, RoleRowInterface, rolesUpdate, rolesCreate } from '../../../api/roles';
-import { SearchPageInterface } from '../../../api/publiceType';
+import { SearchPageInterface } from '../../../types/publiceType.ts';
 import { toLocalTime } from '../../../utils';
 import { getMenu, menuType } from '../../../api/auth';
 import { ElMessage, ElTree, FormInstance } from 'element-plus';

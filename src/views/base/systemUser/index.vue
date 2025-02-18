@@ -77,7 +77,7 @@ import { onMounted, ref } from 'vue';
 import { reactive } from 'vue';
 import { toLocalTime } from '../../../utils';
 import { systemUserList, SystemUserRowInterface, systemUserUpData } from '../../../api/systemUser';
-import { ReturnPageList } from '../../../api/publiceType';
+import { ReturnPageList } from '../../../types/publiceType.ts';
 import { getRoles, RoleRowInterface } from '../../../api/roles';
 import AddDialog from './AddDialog.vue';
 import ChangeDialog from './ChangeDialog.vue';

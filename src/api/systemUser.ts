@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { http } from '../utils/server';
-import { ReturnListInterface, SearchPageInterface } from './publiceType';
+import { ReturnListInterface, SearchPageInterface } from '../types/publiceType.ts';
 import { RoleRowInterface } from './roles';
 
 interface systemUserList extends SearchPageInterface {
