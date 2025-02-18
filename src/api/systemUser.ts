@@ -1,6 +1,6 @@
 import qs from 'qs';
 import { http } from '../utils/server';
-import { ReturnListInterface, SearchPageInterface } from '../types/publiceType.ts';
+import { IReturnList, SearchPageInterface } from '../types/publiceType.ts';
 import { RoleRowInterface } from './roles';
 
 interface systemUserList extends SearchPageInterface {
@@ -29,7 +29,7 @@ export interface SystemUserChangePassword {
  * 模块名: 列表
  */
 export const systemUserList = (params: systemUserList) =>
-  http.get<ReturnListInterface<SystemUserRowInterface[]>>('/system-user?' + qs.stringify(params));
+  http.get<IReturnList<SystemUserRowInterface[]>>('/system-user?' + qs.stringify(params));
 
 /**
  * 模块名: 更新
