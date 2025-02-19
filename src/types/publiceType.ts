@@ -9,7 +9,7 @@ export interface SearchPageInterface {
 }
 
 // 网络请求列表分页接口 API层
-export interface ReturnListInterface<T = any> {
+export interface IReturnList<T = any> {
   content: T;
   totalElements: number;
   totalPages: number;
