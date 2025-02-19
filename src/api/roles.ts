@@ -4,27 +4,27 @@ import { IReturnList, ISearchPageInterface } from '../types/publiceType.ts';
 import { menuType } from './auth';
 
 interface IRolesList extends ISearchPageInterface {
-  name: string;
+  name?: string;
 }
 
-export interface RoleRowInterface {
+export interface IRoleRowInterface {
   name: string;
   id: number;
   value?: number;
   label?: string;
 }
 
-interface RolesDetailInterface extends RoleRowInterface {
+interface RolesDetailInterface extends IRoleRowInterface {
   menus: menuType[];
 }
 
 /**
  * 列表
- * @param params IReturnList
+ * @param query IReturnList
  * @returns
  */
-export const getRoles = (params: IRolesList) =>
-  http.get<IReturnList<RoleRowInterface[]>>('/roles?' + qs.stringify(params));
+export const getRoles = (query: IRolesList) =>
+  http.get<IReturnList<IRoleRowInterface[]>>('/roles?' + qs.stringify({ ...query }));
 
 /**
  * 详情

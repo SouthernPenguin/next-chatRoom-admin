@@ -1,26 +1,26 @@
 import qs from 'qs';
 import { http } from '../utils/server';
 import { IReturnList, ISearchPageInterface } from '../types/publiceType.ts';
-import { RoleRowInterface } from './roles';
+import { IRoleRowInterface } from './roles';
 
-interface systemUserList extends ISearchPageInterface {
+interface ISystemUserList extends ISearchPageInterface {
   name?: string;
 }
 
-export interface SystemUserRowInterface {
+export interface ISystemUserRow {
   id: number;
   name: string;
-  roles: RoleRowInterface[];
+  roles: IRoleRowInterface[];
   // 扩展属性
   idEdit?: boolean;
 }
 
-export interface SystemUserCaredInterface {
+export interface ISystemUserCared {
   name: string;
   roleIds: number[];
 }
 
-export interface SystemUserChangePassword {
+export interface ISystemUserChangePassword {
   oldPassword: string;
   newPassword: string;
 }
@@ -28,23 +28,22 @@ export interface SystemUserChangePassword {
 /**
  * 模块名: 列表
  */
-export const systemUserList = (params: systemUserList) =>
-  http.get<IReturnList<SystemUserRowInterface[]>>('/system-user?' + qs.stringify(params));
+export const ISystemUserList = (params: ISystemUserList) =>
+  http.get<IReturnList<ISystemUserRow[]>>('/system-user?' + qs.stringify(params));
 
 /**
  * 模块名: 更新
  */
 export const systemUserUpData = (id: number, roleIds: number[]) =>
-  http.patch<SystemUserRowInterface>(`/system-user/${id}`, { roleIds });
+  http.patch<ISystemUserRow>(`/system-user/${id}`, { roleIds });
 
 /**
  * 模块名: 创建
  */
-export const systemUserCreated = (data: SystemUserCaredInterface) =>
-  http.post<SystemUserRowInterface>('/system-user', data);
+export const systemUserCreated = (data: ISystemUserCared) => http.post<ISystemUserRow>('/system-user', data);
 
 /**
  * 模块名: 修改密码
  */
-export const systemUserChangePassword = (id: number, data: SystemUserChangePassword) =>
-  http.patch<SystemUserRowInterface>(`/system-user/changePassword/${id}`, data);
+export const systemUserChangePassword = (id: number, data: ISystemUserChangePassword) =>
+  http.patch<ISystemUserRow>(`/system-user/changePassword/${id}`, data);

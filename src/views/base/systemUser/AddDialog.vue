@@ -22,15 +22,15 @@
 <script setup lang="ts">
 import { ElNotification } from 'element-plus';
 import { reactive } from 'vue';
-import { SystemUserCaredInterface, systemUserCreated } from '../../../api/systemUser';
-import { RoleRowInterface } from '../../../api/roles';
+import { ISystemUserCared, systemUserCreated } from '../../../api/systemUser';
+import { IRoleRowInterface } from '../../../api/roles';
 
 interface DialogData {
-  form: SystemUserCaredInterface;
+  form: ISystemUserCared;
 }
 
 interface PropsInterface {
-  allRoles: RoleRowInterface[] | any[];
+  allRoles: IRoleRowInterface[] | any[];
 }
 
 const props = defineProps<PropsInterface>();

@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form ref="systemUserFormRef" inline :model="systemUserPageData.formSearch">
+    <el-form ref="systemUserFormRef" inline>
       <el-form-item prop="name">
-        <el-input placeholder="角色名称" clearable v-model="systemUserPageData.formSearch.name" />
+        <el-input placeholder="角色名称" clearable v-model="name" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
-        <el-button type="warning" @click="resetting(systemUserFormRef)">重置</el-button>
+        <el-button type="warning" @click="resetting">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -52,7 +52,7 @@
     </el-table>
 
     <el-pagination
-      :total="systemUserPageData.total"
+      :total="total"
       :page-sizes="[10, 20, 30, 40, 50]"
       layout="sizes, prev, pager, next"
       @change="pageChange"
@@ -76,17 +76,24 @@ import { ElMessage, FormInstance } from 'element-plus';
 import { onMounted, ref } from 'vue';
 import { reactive } from 'vue';
 import { toLocalTime } from '../../../utils';
-import { systemUserList, SystemUserRowInterface, systemUserUpData } from '../../../api/systemUser';
-import { ReturnPageList } from '../../../types/publiceType.ts';
-import { getRoles, RoleRowInterface } from '../../../api/roles';
+import { ISystemUserList, ISystemUserRow, systemUserUpData } from '../../../api/systemUser';
+import { getRoles, IRoleRowInterface } from '../../../api/roles';
 import AddDialog from './AddDialog.vue';
 import ChangeDialog from './ChangeDialog.vue';
+import { usePagination } from '@/hooks/usePagination.ts';
 
-interface SystemUserPageDataInterface extends ReturnPageList<SystemUserRowInterface[] | any[], { name: string }> {
-  allRoles: RoleRowInterface[] | any[];
+interface ISystemUserPageData {
+  tableData: ISystemUserRow[] | any[];
+  allRoles: IRoleRowInterface[] | any[];
   roleIds: number[] | any[];
   rowId: number;
 }
+
+const { page, limit, reset, total, name } = usePagination<{ name: string }>({
+  page: 1,
+  limit: 10,
+  extraParams: { name: '', autoResetPage: true },
+});
 
 const systemUserFormRef = ref<FormInstance>();
 
@@ -94,12 +101,10 @@ const showObj = reactive({
   addShow: false,
   changePasswordShow: false,
 });
-const systemUserPageData = reactive<SystemUserPageDataInterface>({
+
+//
+const systemUserPageData = reactive<ISystemUserPageData>({
   tableData: [],
-  page: 1,
-  limit: 10,
-  total: 0,
-  formSearch: { name: '' },
   allRoles: [],
   roleIds: [],
   rowId: -1,
@@ -125,39 +130,35 @@ const getAllRoles = async () => {
 };
 
 const getSystemUserList = async () => {
-  const res = await systemUserList({
-    page: systemUserPageData.page,
-    limit: systemUserPageData.limit,
-    name: systemUserPageData.formSearch.name,
+  const res = await ISystemUserList({
+    page: page.value,
+    limit: limit.value,
+    name: name.value,
   });
   if (res.success) {
     res.data.content.forEach(item => {
       item.idEdit = false;
     });
     systemUserPageData.tableData = res.data.content;
-    systemUserPageData.total = res.data.totalElements;
+    total.value = res.data.totalElements;
   }
-  getSystemUserList;
 };
 
 const pageChange = (currentPage: number, pageSize: number) => {
-  systemUserPageData.page = currentPage;
-  systemUserPageData.limit = pageSize;
+  page.value = currentPage;
+  limit.value = pageSize;
   getSystemUserList();
 };
 
 const search = () => {
   getSystemUserList();
 };
-const resetting = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  systemUserPageData.page = 1;
-  systemUserPageData.limit = 10;
+const resetting = () => {
+  reset();
   getSystemUserList();
 };
 
-const editAndSave = async (row: SystemUserRowInterface, type: number) => {
+const editAndSave = async (row: ISystemUserRow, type: number) => {
   if (type === 0) {
     systemUserPageData.roleIds = row.roles.map(item => item.id);
   }
@@ -180,7 +181,7 @@ const editAndSave = async (row: SystemUserRowInterface, type: number) => {
   }
 };
 
-const changePassword = (row: SystemUserRowInterface) => {
+const changePassword = (row: ISystemUserRow) => {
   systemUserPageData.rowId = row.id;
   showObj.changePasswordShow = true;
 };

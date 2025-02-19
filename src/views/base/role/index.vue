@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
-import { getRoles, rolesDetail, RoleRowInterface, rolesUpdate, rolesCreate } from '../../../api/roles';
+import { getRoles, rolesDetail, IRoleRowInterface, rolesUpdate, rolesCreate } from '../../../api/roles';
 import { toLocalTime } from '../../../utils';
 import { getMenu, menuType } from '../../../api/auth';
 import { ElMessage, ElTree, FormInstance } from 'element-plus';
@@ -85,9 +85,9 @@ import { usePagination } from '@/hooks/usePagination.ts';
 const treeRef = ref<InstanceType<typeof ElTree>>();
 
 interface IRolePageData {
-  tableData: RoleRowInterface[] | any[];
+  tableData: IRoleRowInterface[] | any[];
   allMenus: menuType[] | any[];
-  rowItem: RoleRowInterface;
+  rowItem: IRoleRowInterface;
   rolesName: string;
 }
 
@@ -144,7 +144,7 @@ const pageChange = (currentPage: number, pageSize: number) => {
   getTableData();
 };
 
-const handleCurrentChange = async (val: RoleRowInterface) => {
+const handleCurrentChange = async (val: IRoleRowInterface) => {
   if (!val) return;
   rolePageData.rolesName = '';
   const res = await rolesDetail(val.id);

@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { ElMessage, FormInstance, FormRules } from 'element-plus';
 import { reactive, ref } from 'vue';
-import { systemUserChangePassword, SystemUserChangePassword } from '../../../api/systemUser';
+import { systemUserChangePassword, ISystemUserChangePassword } from '../../../api/systemUser';
 interface PropsInterface {
   id: number;
 }
@@ -36,7 +36,7 @@ const show = defineModel('show', {
 });
 
 const formRef = ref<FormInstance>();
-const form = reactive<SystemUserChangePassword>({
+const form = reactive<ISystemUserChangePassword>({
   oldPassword: '',
   newPassword: '',
 });
