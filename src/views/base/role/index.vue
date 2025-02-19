@@ -1,12 +1,12 @@
 <template>
   <div class="app-container">
-    <el-form ref="ruleFormRef" inline :model="rolePageData.formSearch">
+    <el-form ref="ruleFormRef" inline>
       <el-form-item prop="name">
-        <el-input v-model="rolePageData.formSearch.name" placeholder="角色名称" clearable />
+        <el-input v-model="name" placeholder="角色名称" clearable />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
-        <el-button type="warning" @click="resetting(ruleFormRef)">重置</el-button>
+        <el-button type="warning" @click="resetting">重置</el-button>
       </el-form-item>
     </el-form>
 
@@ -29,7 +29,7 @@
         <el-pagination
           :page-sizes="[10, 20, 30, 40, 50]"
           layout="sizes, prev, pager, next"
-          :total="rolePageData.total"
+          :total="total"
           @change="pageChange"
         />
       </el-col>
@@ -77,37 +77,32 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { getRoles, rolesDetail, RoleRowInterface, rolesUpdate, rolesCreate } from '../../../api/roles';
-import { SearchPageInterface } from '../../../types/publiceType.ts';
 import { toLocalTime } from '../../../utils';
 import { getMenu, menuType } from '../../../api/auth';
 import { ElMessage, ElTree, FormInstance } from 'element-plus';
+import { usePagination } from '@/hooks/usePagination.ts';
 
 const treeRef = ref<InstanceType<typeof ElTree>>();
 
 interface IRolePageData {
   tableData: RoleRowInterface[] | any[];
-  page: SearchPageInterface;
-  total: number;
   allMenus: menuType[] | any[];
   rowItem: RoleRowInterface;
   rolesName: string;
-  formSearch: { name: string };
 }
+
+const { page, limit, reset, total, name } = usePagination<{ name: string }>({
+  page: 1,
+  limit: 10,
+  extraParams: { name: '', autoResetPage: true },
+});
 
 const ruleFormRef = ref<FormInstance>();
 const rolePageData = reactive<IRolePageData>({
   tableData: [],
-  page: {
-    page: 1,
-    limit: 10,
-  },
-  total: 0,
   allMenus: [],
-  rowItem: { id: -1, name: 'defaule' },
   rolesName: '',
-  formSearch: {
-    name: '',
-  },
+  rowItem: { id: -1, name: 'defaule' },
 });
 
 onMounted(() => {
@@ -118,23 +113,20 @@ onMounted(() => {
 const search = () => {
   getTableData();
 };
-const resetting = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-  rolePageData.page.page = 1;
-  rolePageData.page.limit = 10;
+const resetting = () => {
+  reset();
   getTableData();
 };
 
 const getTableData = async () => {
   const res = await getRoles({
-    page: rolePageData.page.page,
-    limit: rolePageData.page.limit,
-    name: rolePageData.formSearch.name,
+    page: page.value,
+    limit: limit.value,
+    name: name.value,
   });
   if (res.success) {
     rolePageData.tableData = res.data.content;
-    rolePageData.total = res.data.totalElements;
+    total.value = res.data.totalElements;
   }
 };
 
@@ -147,8 +139,8 @@ const getALLTableData = async () => {
 };
 
 const pageChange = (currentPage: number, pageSize: number) => {
-  rolePageData.page.page = currentPage;
-  rolePageData.page.limit = pageSize;
+  page.value = currentPage;
+  limit.value = pageSize;
   getTableData();
 };
 

@@ -3,7 +3,7 @@
  */
 
 // 页码搜索
-export interface SearchPageInterface {
+export interface ISearchPageInterface {
   page: number;
   limit: number;
 }
@@ -16,7 +16,7 @@ export interface IReturnList<T = any> {
 }
 
 // 页面网络请求返回接口 UI层
-export interface ReturnPageList<T = any, F = any> extends SearchPageInterface {
+export interface ReturnPageList<T = any, F = any> extends ISearchPageInterface {
   total: number;
   tableData: T; // 表格数据类型
   formSearch: F; // 表单数据类型

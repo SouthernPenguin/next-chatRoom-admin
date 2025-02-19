@@ -1,4 +1,4 @@
-import { SearchPageInterface } from './publiceType.ts';
+import { ISearchPageInterface } from './publiceType.ts';
 
 export interface IUser {
   id: number;
@@ -9,6 +9,6 @@ export interface IUser {
   isBlack: boolean;
   password?: string | null;
 }
-export interface IUserSearch extends SearchPageInterface {
+export interface IUserSearch extends ISearchPageInterface {
   blur: string;
 }

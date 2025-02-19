@@ -1,10 +1,10 @@
 import qs from 'qs';
 import { http } from '../utils/server';
-import { IReturnList, SearchPageInterface } from '../types/publiceType.ts';
+import { IReturnList, ISearchPageInterface } from '../types/publiceType.ts';
 import { menuType } from './auth';
 
-interface rolesList extends SearchPageInterface {
-  name?: string;
+interface IRolesList extends ISearchPageInterface {
+  name: string;
 }
 
 export interface RoleRowInterface {
@@ -23,7 +23,7 @@ interface RolesDetailInterface extends RoleRowInterface {
  * @param params IReturnList
  * @returns
  */
-export const getRoles = (params: rolesList) =>
+export const getRoles = (params: IRolesList) =>
   http.get<IReturnList<RoleRowInterface[]>>('/roles?' + qs.stringify(params));
 
 /**

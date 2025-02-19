@@ -1,9 +1,9 @@
 import qs from 'qs';
 import { http } from '../utils/server';
-import { IReturnList, SearchPageInterface } from '../types/publiceType.ts';
+import { IReturnList, ISearchPageInterface } from '../types/publiceType.ts';
 import { RoleRowInterface } from './roles';
 
-interface systemUserList extends SearchPageInterface {
+interface systemUserList extends ISearchPageInterface {
   name?: string;
 }
 
