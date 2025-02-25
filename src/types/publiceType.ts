@@ -6,6 +6,7 @@
 export interface ISearchPageInterface {
   page: number;
   limit: number;
+  blurry?: string;
 }
 
 // 网络请求列表分页接口 API层

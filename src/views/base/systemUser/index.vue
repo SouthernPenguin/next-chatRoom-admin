@@ -92,7 +92,8 @@ interface ISystemUserPageData {
 const { page, limit, reset, total, name } = usePagination<{ name: string }>({
   page: 1,
   limit: 10,
-  extraParams: { name: '', autoResetPage: true },
+  extraParams: { name: '' },
+  autoResetPage: true,
 });
 
 const systemUserFormRef = ref<FormInstance>();
