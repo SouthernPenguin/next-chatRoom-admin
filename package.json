@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:nots": " vite build",
     "preview": "vite preview",
     "commit": "git cz & git push",
     "prepare": "npx husky install"
