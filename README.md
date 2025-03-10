@@ -1,5 +1,26 @@
-# Vue 3 + TypeScript + Vite
+# 网页端聊天系统后台管理
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+### 后台模块
++ [x] 菜单管理
++ [x] 系统用户管理
+  + [x] 密码重置
+  + [x] 添加/创建
++ [x] 用户管理
+  + [x] 密码重置
+  + [x] 用户拉黑
+  + [x] 添加/创建
++ [x] 群管理
+  + [x] 群列表
+  + [x] 群成员
+  + [x] 群解散
++ [x] 角色管理
+  + [x] 添加/创建
++ [X] CURD
+  + [X] 搜索列表的CURD 
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+### 技术栈
++ 前端：Vue3 + Vite + TypeScript + Pinia 
++ UI：element-plus
++ Node版本：v18以上
+
+### 后续应该会继续完善
